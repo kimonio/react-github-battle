@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import queryString from 'query-string'
 import { battle } from '../utils/api'
 import {
 	FaCompass,
@@ -12,6 +13,7 @@ import Card from './card'
 import PropTypes from 'prop-types'
 import Loading from './loading'
 import Tooltip from './tooltip'
+import { Link } from 'react-router-dom'
 
 class Results extends Component {
 	constructor(props) {
@@ -35,7 +37,9 @@ class Results extends Component {
 	}
 
 	componentDidMount() {
-		const { playerOne, playerTwo } = this.props
+		const { playerOne, playerTwo } = queryString.parse(
+			this.props.location.search
+		)
 		battle([playerOne, playerTwo])
 			.then((players) => this.updatePlayers(players))
 			.catch(({ message }) => {
@@ -72,18 +76,12 @@ class Results extends Component {
 						<ProfileList profile={loser.profile} />
 					</Card>
 				</div>
-				<button className='btn dark-btn btn-space' onClick={this.props.onReset}>
+				<Link className='btn dark-btn btn-space' to='/battle'>
 					Reset
-				</button>
+				</Link>
 			</React.Fragment>
 		)
 	}
-}
-
-Results.propTypes = {
-	playerOne: PropTypes.string.isRequired,
-	playerTwo: PropTypes.string.isRequired,
-	onReset: PropTypes.func.isRequired,
 }
 
 function ProfileList({ profile }) {
