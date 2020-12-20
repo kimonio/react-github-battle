@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 // Components
-import Popular from './components/popular'
-import Battle from './components/battle'
 import Nav from './components/Nav'
-import Results from './components/results'
+import Loading from './components/loading'
+
+// Code-splitting
+const Battle = React.lazy(() => import('./components/battle'))
+const Results = React.lazy(() => import('./components/results'))
+const Popular = React.lazy(() => import('./components/popular'))
 
 // Contexts
 import { ThemeProvider } from './contexts/themeContext'
@@ -40,12 +43,14 @@ class App extends React.Component {
 						<div className='container'>
 							<Nav />
 
-							<Switch>
-								<Route exact path='/' component={Popular} />
-								<Route exact path='/battle' component={Battle} />
-								<Route path='/battle/results' component={Results} />
-								<Route render={() => <h1>404</h1>} />
-							</Switch>
+							<React.Suspense fallback={<Loading />}>
+								<Switch>
+									<Route exact path='/' component={Popular} />
+									<Route exact path='/battle' component={Battle} />
+									<Route path='/battle/results' component={Results} />
+									<Route render={() => <h1>404</h1>} />
+								</Switch>
+							</React.Suspense>
 						</div>
 					</div>
 				</ThemeProvider>
