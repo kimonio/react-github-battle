@@ -16,18 +16,14 @@ import Tooltip from './tooltip'
 import { Link } from 'react-router-dom'
 
 class Results extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			winner: null,
-			loser: null,
-			error: null,
-			loading: true,
-		}
-		this.updatePlayers = this.updatePlayers.bind(this)
+	state = {
+		winner: null,
+		loser: null,
+		error: null,
+		loading: true,
 	}
 
-	updatePlayers(players) {
+	updatePlayers = (players) => {
 		this.setState({
 			winner: players[0],
 			loser: players[1],
@@ -36,7 +32,7 @@ class Results extends Component {
 		})
 	}
 
-	componentDidMount() {
+	componentDidMount = () => {
 		const { playerOne, playerTwo } = queryString.parse(
 			this.props.location.search
 		)
@@ -50,7 +46,7 @@ class Results extends Component {
 			})
 	}
 
-	render() {
+	render = () => {
 		const { winner, loser, error, loading } = this.state
 
 		if (loading) return <Loading />
