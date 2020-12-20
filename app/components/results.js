@@ -11,6 +11,7 @@ import {
 import Card from './card'
 import PropTypes from 'prop-types'
 import Loading from './loading'
+import Tooltip from './tooltip'
 
 class Results extends Component {
 	constructor(props) {
@@ -62,8 +63,6 @@ class Results extends Component {
 						name={winner.profile.login}>
 						<ProfileList profile={winner.profile} />
 					</Card>
-				</div>
-				<div className='grid space-around container-sm'>
 					<Card
 						header={winner.score === loser.score ? 'Tie' : 'Loser'}
 						subheader={`Score: ${loser.score.toLocaleString()}`}
@@ -87,7 +86,7 @@ Results.propTypes = {
 	onReset: PropTypes.func.isRequired,
 }
 
-const ProfileList = ({ profile }) => {
+function ProfileList({ profile }) {
 	return (
 		<ul className='card-list'>
 			<li>
@@ -96,14 +95,18 @@ const ProfileList = ({ profile }) => {
 			</li>
 			{profile.location && (
 				<li>
-					<FaCompass color='rgb(144, 115, 255)' size={22} />
-					{profile.location}
+					<Tooltip text="User's Location">
+						<FaCompass color='rgb(144, 115, 255)' size={22} />
+						{profile.location}
+					</Tooltip>
 				</li>
 			)}
 			{profile.company && (
 				<li>
-					<FaBriefcase color='#795548' size={22} />
-					{profile.company}
+					<Tooltip text="User's Company">
+						<FaBriefcase color='#795548' size={22} />
+						{profile.company}
+					</Tooltip>
 				</li>
 			)}
 			<li>
